@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+      revision: HEAD
+      directories:
+      - path: env/*
+  template:
+    metadata:
+      name: guestbook-{{path.basename}}
+      annotations:
+        kargo.akuity.io/authorized-stage: akuity-argocd-kargo-quickstart:{{path.basename}}
+    spec:
+      destination:
+        # namespace: guestbook-{{path.basename}}
+        # Specify either a cluster destination name or server address:
+        name: in-cluster
+        # server: https://REPLACEME
+      project: akuity-argocd-kargo-quickstart
+      source:
+        path: ./
+        repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+        targetRevision: env/{{path.basename}}

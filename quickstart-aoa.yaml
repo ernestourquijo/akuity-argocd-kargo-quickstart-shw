@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: akuity-argocd-kargo-quickstart-aoa
+spec:
+  project: akuity-argocd-kargo-quickstart
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart
+    path: argocd
+    directory:
+      recurse: true
+  destination:
+    name: in-cluster
+    namespace: argocd
