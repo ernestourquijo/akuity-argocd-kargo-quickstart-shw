@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+      repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
       revision: HEAD
       directories:
       - path: env/*
@@ -19,10 +19,10 @@ spec:
       destination:
         # namespace: guestbook-{{path.basename}}
         # Specify either a cluster destination name or server address:
-        name: in-cluster
+        name: epam-kargo
         # server: https://REPLACEME
       project: akuity-argocd-kargo-quickstart
       source:
         path: ./
-        repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+        repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
         targetRevision: env/{{path.basename}}

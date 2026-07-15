@@ -10,5 +10,5 @@ spec:
       imageSelectionStrategy: SemVer
       allowTags: ^v?[0-9]+\.[0-9]+\.[0-9]+([\+-].*)?$
   - git:
-      repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+      repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
       branch: main

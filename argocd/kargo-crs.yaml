@@ -5,10 +5,10 @@ metadata:
 spec:
   project: akuity-argocd-kargo-quickstart
   source:
-    repoURL: https://github.com/dhpup/akuity-argocd-kargo-quickstart.git
+    repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
     path: kargo
   destination:
-    name: in-cluster
+    name: kargo
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
