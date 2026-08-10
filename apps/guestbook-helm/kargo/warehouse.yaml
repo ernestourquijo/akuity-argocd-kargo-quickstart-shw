@@ -1,0 +1,23 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: guestbook
+  namespace: guestbook-helm
+spec:
+  subscriptions:
+  # Image-only subscription. This variant's promotions COMMIT TO MAIN, so a
+  # git subscription to main would make every promotion produce new Freight —
+  # an endless loop. (The existing rendered-branch app in kargo/warehouse.yaml
+  # can safely watch git because its promotions push to env/* branches.)
+  - image:
+      repoURL: ghcr.io/akuity/guestbook
+      imageSelectionStrategy: SemVer
+      # `allowTagsRegexes` (list), NOT the older `allowTags` (string) still used
+      # by kargo/warehouse.yaml. The old field was deprecated in Kargo v1.9.0;
+      # from v1.11.0 artifact discovery FAILS outright when it is non-empty, and
+      # it is removed in v1.13.0. This repo's README pins Kargo v1.10.x, where
+      # both forms work — so the new form is the only forward-safe choice.
+      # If this Warehouse discovers no Freight, the instance predates v1.9.0:
+      # swap this back to `allowTags: ^v?[0-9]+\.[0-9]+\.[0-9]+([\+-].*)?$`.
+      allowTagsRegexes:
+      - ^v?[0-9]+\.[0-9]+\.[0-9]+([\+-].*)?$

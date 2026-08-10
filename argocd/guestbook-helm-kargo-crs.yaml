@@ -1,0 +1,36 @@
+# Syncs the guestbook-helm app's Kargo resources (Project, Warehouse, Stages,
+# PromotionTask) to the Kargo control plane — the Argo CD cluster named `kargo`,
+# same destination as argocd/kargo-crs.yaml. Picked up automatically by
+# quickstart-aoa.yaml, which recurses this directory.
+#
+# Convention (from akp-platform): the app directory name IS the Argo CD
+# AppProject name IS the Kargo Project name.
+#
+# NOTE: on first bootstrap this Application may briefly report an "application
+# references project guestbook-helm which does not exist" error — the AppProject
+# is created asynchronously by guestbook-helm-argocd-crs.yaml. It self-heals
+# within seconds; no action needed.
+#
+# NOTE: automated sync is REQUIRED. Without it, edits to apps/guestbook-helm/kargo/
+# never reach the cluster and promotions keep running the stale PromotionTask.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-helm-kargo
+  namespace: argocd
+spec:
+  project: guestbook-helm
+  source:
+    repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
+    targetRevision: HEAD
+    path: apps/guestbook-helm/kargo
+    directory:
+      recurse: true
+  destination:
+    name: kargo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

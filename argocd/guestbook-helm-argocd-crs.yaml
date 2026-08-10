@@ -1,0 +1,28 @@
+# Syncs the guestbook-helm app's Argo CD resources (AppProject + ApplicationSet)
+# into the Argo CD control plane. Picked up automatically by quickstart-aoa.yaml,
+# which recurses this directory.
+#
+# `project: default` is deliberate: the guestbook-helm AppProject lives inside
+# the very path this Application syncs, so this Application cannot belong to it
+# (chicken-and-egg). If `default` is restricted on your instance, change this to
+# `akuity-argocd-kargo-quickstart`.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-helm-argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ernestourquijo/akuity-argocd-kargo-quickstart-shw.git
+    targetRevision: HEAD
+    path: apps/guestbook-helm/argocd
+    directory:
+      recurse: true
+  destination:
+    name: in-cluster
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
